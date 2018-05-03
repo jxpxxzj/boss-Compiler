@@ -10,16 +10,16 @@ namespace Compiler.Syntactic
 {
     public class LR0Parser : AbstractParser
     {
-        private List<Closure> Collections { get; set; } = new List<Closure>();
-        private Dictionary<NonTerminal, List<int>> dic = new Dictionary<NonTerminal, List<int>>();
-        private List<AbstractTerminal> V = new List<AbstractTerminal>();
-        private Dictionary<int, Dictionary<AbstractTerminal, int>> Go = new Dictionary<int, Dictionary<AbstractTerminal, int>>();
-
-        private Dictionary<int, Dictionary<Terminal, Content>> Action = new Dictionary<int, Dictionary<Terminal, Content>>();
-        private Dictionary<int, Dictionary<NonTerminal, int>> Goto = new Dictionary<int, Dictionary<NonTerminal, int>>();
-        private Dictionary<ProductionExpression, Tuple<int, int>> prodDict = new Dictionary<ProductionExpression, Tuple<int, int>>(ProductionExpression.Comparer);
-
-        private List<Production> items = new List<Production>();
+        protected List<Closure> Collections { get; set; } = new List<Closure>();
+        protected Dictionary<NonTerminal, List<int>> dic = new Dictionary<NonTerminal, List<int>>();
+        protected List<AbstractTerminal> V = new List<AbstractTerminal>();
+        protected Dictionary<int, Dictionary<AbstractTerminal, int>> Go = new Dictionary<int, Dictionary<AbstractTerminal, int>>();
+         
+        protected Dictionary<int, Dictionary<Terminal, Content>> Action = new Dictionary<int, Dictionary<Terminal, Content>>();
+        protected Dictionary<int, Dictionary<NonTerminal, int>> Goto = new Dictionary<int, Dictionary<NonTerminal, int>>();
+        protected Dictionary<ProductionExpression, Tuple<int, int>> prodDict = new Dictionary<ProductionExpression, Tuple<int, int>>(ProductionExpression.Comparer);
+         
+        protected List<Production> items = new List<Production>();
 
         public LR0Parser(Grammar grammar) : base(grammar)
         {
@@ -44,7 +44,7 @@ namespace Compiler.Syntactic
 
         }
 
-        private Terminal dotTerminal = new Terminal(".", Tokens.DotTerminal);
+        protected Terminal dotTerminal = new Terminal(".", Tokens.DotTerminal);
 
         public void MakeItem()
         {
@@ -104,7 +104,7 @@ namespace Compiler.Syntactic
             }
         }
 
-        private void makeSet()
+        protected virtual void makeSet()
         {
             bool[] has = new bool[500];
             for (int i = 0; i < items.Count; i++)
@@ -392,7 +392,7 @@ namespace Compiler.Syntactic
             }
         }
 
-        private void makeTable()
+        protected virtual void makeTable()
         {
             for (int i = 0; i < Collections.Count; i++)
             {
@@ -512,7 +512,7 @@ namespace Compiler.Syntactic
             sb.AppendFormat("{0}\t", step);
             foreach (var i in state)
             {
-                sb.Append(i);
+                sb.AppendFormat("[{0}]", i);
             }
             sb.Append("\t");
             var arr = op.ToList();

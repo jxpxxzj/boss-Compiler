@@ -1,6 +1,6 @@
 ﻿namespace Compiler.Syntactic.LR
 {
-    internal enum LRTableType
+    public enum LRTableType
     {
         Shift = 0,
         Reduce = 1,

@@ -38,4 +38,6 @@
 
 - `Grammars.cs`: 算术表达式语法定义
 - `LL1Parser.cs`: LL(1) 语法分析器
+- `LR0Parser.cs`: LR(0) 语法分析器
+- `SLR1Parser.cs`: SLR(1) 语法分析器
 - `Program.cs`: 测试程序

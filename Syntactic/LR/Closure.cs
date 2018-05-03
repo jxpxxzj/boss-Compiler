@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Compiler.Syntactic.LR
 {
-    internal class Closure : IEquatable<Closure>
+    public class Closure : IEquatable<Closure>
     {
         public List<ProductionExpression> Element { get; set; } = new List<ProductionExpression>();
         public ProductionExpression this[int index] { get => Element[index]; }

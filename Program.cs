@@ -20,8 +20,9 @@ namespace Compiler
             //    Console.WriteLine(p.ToString());
             //}
 
-            //var str = "123 + 456 * 789 - (222 / 333 + 444 * 555 * (666 - 777 * 888))";
-            var str = "+--*/(";
+            // var str = "123 + 456 * 789 - (222 / 333 + 444 * 555 * (666 - 777 * 888))";
+            // var str = "+--*/(";
+            var str = "(123 * 456) + 789";
             var tokens = Lexer.Lex(str);
 
             var pros = new List<Production>
@@ -39,7 +40,7 @@ namespace Compiler
                 TextBookTestGrammar.Productions.S, TextBookTestGrammar.Productions.E, TextBookTestGrammar.Productions.A, TextBookTestGrammar.Productions.B
             };
 
-            var parser = new LR0Parser(pros);
+            var parser = new SLR1Parser(pros2);
             parser.Parse(tokens, str.Length);
 
             Console.ReadLine();

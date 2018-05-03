@@ -3,7 +3,7 @@
 namespace Compiler.Syntactic.LR
 {
 
-    internal class Content
+    public class Content
     {
         public LRTableType ActionType;
         public int ShiftNextState;
