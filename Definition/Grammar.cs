@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Compiler.Lexical;
+using System;
 using System.Collections.Generic;
 
-namespace Compiler
+namespace Compiler.Definition
 {
     public class Grammar
     {
         public List<Production> Productions { get; set; } = new List<Production>();
+        public NonTerminal BeginSymbol => Productions[0].Left;
+
         private bool[] used = new bool[500];
         private Dictionary<NonTerminal, int> vndic = new Dictionary<NonTerminal, int>();
 
@@ -110,7 +113,7 @@ namespace Compiler
         }
         private void getFollow()
         {
-            Productions[0].Left.Follow.Add(Tokens.LexEnd);
+            Productions[0].Left.Follow.Add(TypeConventer.ToTerminal(Tokens.LexEnd));
             while (true)
             {
                 bool loop = false;

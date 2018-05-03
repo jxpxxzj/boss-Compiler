@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Compiler
+namespace Compiler.Definition
 {
     public class NonTerminal : AbstractTerminal
     {
@@ -14,5 +14,7 @@ namespace Compiler
         {
             Name = name;
         }
+
+        public static implicit operator Production(NonTerminal nont) => TypeConventer.ToProduction(nont);
     }
 }

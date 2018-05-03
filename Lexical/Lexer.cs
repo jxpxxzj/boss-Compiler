@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Compiler
+namespace Compiler.Lexical
 {
     public static class Lexer
     {
@@ -18,7 +18,7 @@ namespace Compiler
 
         private static bool isBlank(char ch) => ch.ToString().Trim() == string.Empty;
 
-        public static List<Token> Tokenizer(string expression)
+        public static List<Token> Lex(string expression)
         {
             var to = new List<Token>();
             var ch = '\0';

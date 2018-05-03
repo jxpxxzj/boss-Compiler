@@ -1,28 +1,26 @@
-﻿using System;
+﻿using Compiler.Definition;
+using Compiler.Lexical;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Compiler
+namespace Compiler.Syntactic
 {
-    public class LL1Parser
+    public class LL1Parser : AbstractParser
     {
-        public Grammar Grammar { get; protected set; }
-
         private Dictionary<NonTerminal, Dictionary<Terminal, ProductionExpression>> predictTable = new Dictionary<NonTerminal, Dictionary<Terminal, ProductionExpression>>();
-        
-        public LL1Parser(Grammar grammar)
+
+        public LL1Parser(Grammar grammar) : base(grammar)
         {
-            Grammar = grammar;
             generateTable();
         }
 
-        public LL1Parser(List<Production> productions)
+        public LL1Parser(List<Production> productions) : base(productions)
         {
-            Grammar = new Grammar(productions);
             generateTable();
         }
-        
+
         private bool checkFirst(ProductionExpression expression, AbstractTerminal term)
         {
             for (int i = 0; i < expression.Count; i++)
@@ -159,9 +157,9 @@ namespace Compiler
             Console.WriteLine(str);
         }
 
-        public bool Parse(List<Token> input, int textLength = -1)
+        public override bool Parse(List<Token> input, int textLength = -1)
         {
-            input.Add(new Token() { Type = Tokens.LexEnd, Text = "#" ,EndLocation = textLength });
+            input.Add(new Token() { Type = Tokens.LexEnd, Text = "#", EndLocation = textLength });
             var stack = new Stack<AbstractTerminal>();
 
             int pointer = 0;
@@ -178,13 +176,14 @@ namespace Compiler
                 var x = stack.Pop();
                 if (x is Terminal termX && termX == Terminal.LexEnd)
                 {
-                    if (((Terminal)x).Type == token.Type)
+                    if (termX.Type == token.Type)
                     {
                         flag = false;
-                        Console.WriteLine("Accept");
+                        Console.WriteLine("{0}\tAccept", step);
                     }
                     else
                     {
+                        ErrorHandler(step, token);
                         return false;
                     }
                 }
@@ -202,9 +201,10 @@ namespace Compiler
                     try
                     {
                         var dict = predictTable[nont];
-                        if (dict.ContainsKey(token))
+                        var term1 = TypeConventer.ToTerminal(token);
+                        if (dict.ContainsKey(term1))
                         {
-                            var expr = dict[token];
+                            var expr = dict[term1];
                             if (expr.IsEpsilonExpression)
                             {
                                 printStep(step, pointer, stack, input, expr, null);
@@ -218,7 +218,7 @@ namespace Compiler
                         }
                         else
                         {
-                            Console.WriteLine("{0}\tSyntax Error, Unexpected token: {1} at pos:{2}", step, token.Text, token.StartLocation);
+                            ErrorHandler(step, token);
                             return false;
                         }
                     }

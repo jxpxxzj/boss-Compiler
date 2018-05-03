@@ -1,27 +1,47 @@
-﻿using System;
+﻿using Compiler.Definition;
+using Compiler.Lexical;
+using Compiler.Syntactic;
+using System;
 using System.Collections.Generic;
 
 namespace Compiler
 {
     class Program
     {
-
         static List<Production> defineGrammar()
         {
-            return new List<Production>() { Grammars.Productions.Expr, Grammars.Productions.ExprTail, Grammars.Productions.Term, Grammars.Productions.TermTail, Grammars.Productions.Factor };
+            return new List<Production>() { LL1TestGrammars.Productions.Expr, LL1TestGrammars.Productions.ExprTail, LL1TestGrammars.Productions.Term, LL1TestGrammars.Productions.TermTail, LL1TestGrammars.Productions.Factor };
         }
         static void Main(string[] args)
         {
-            var pros = defineGrammar();
-            foreach (var p in pros)
-            {
-                Console.WriteLine(p.ToString());
-            }
+            //var pros = defineGrammar();
+            //foreach (var p in pros)
+            //{
+            //    Console.WriteLine(p.ToString());
+            //}
 
-            var parser = new LL1Parser(pros);
-            var str = "123 * 234 + 345 / (678 - (90 * (123 + 234)))";
-            var tokens = Lexer.Tokenizer(str);
+            //var str = "123 + 456 * 789 - (222 / 333 + 444 * 555 * (666 - 777 * 888))";
+            var str = "+--*/(";
+            var tokens = Lexer.Lex(str);
+
+            var pros = new List<Production>
+            {
+                LRTestGrammar.Productions.S, LRTestGrammar.Productions.E, LRTestGrammar.Productions.A, LRTestGrammar.Productions.B
+            };
+
+            var pros2 = new List<Production>
+            {
+                LeftRecursiveTestGrammar.Productions.S, LeftRecursiveTestGrammar.Productions.E, LeftRecursiveTestGrammar.Productions.T, LeftRecursiveTestGrammar.Productions.F
+            };
+
+            var pros3 = new List<Production>
+            {
+                TextBookTestGrammar.Productions.S, TextBookTestGrammar.Productions.E, TextBookTestGrammar.Productions.A, TextBookTestGrammar.Productions.B
+            };
+
+            var parser = new LR0Parser(pros);
             parser.Parse(tokens, str.Length);
+
             Console.ReadLine();
 
         }

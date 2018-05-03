@@ -1,4 +1,4 @@
-﻿namespace Compiler
+﻿namespace Compiler.Lexical
 {
     public enum Tokens
     {
@@ -12,6 +12,7 @@
         RightBracket,
         Number,
         Epsilon,
-        LexEnd
+        LexEnd,
+        DotTerminal
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Compiler
+namespace Compiler.Lexical
 {
     public class Token
     {
