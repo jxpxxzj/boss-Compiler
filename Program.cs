@@ -20,9 +20,9 @@ namespace Compiler
             //    Console.WriteLine(p.ToString());
             //}
 
-            // var str = "123 + 456 * 789 - (222 / 333 + 444 * 555 * (666 - 777 * 888))";
+            var str = "123 + 456 * 789 - (222 / 333 + 444 * 555 * (666 - 777 * 888))";
             // var str = "+--*/(";
-            var str = "(123 * 456) + 789";
+            //var str = "(123 * 456) + 789";
             var tokens = Lexer.Lex(str);
 
             var pros = new List<Production>
@@ -32,7 +32,7 @@ namespace Compiler
 
             var pros2 = new List<Production>
             {
-                LeftRecursiveTestGrammar.Productions.S, LeftRecursiveTestGrammar.Productions.E, LeftRecursiveTestGrammar.Productions.T, LeftRecursiveTestGrammar.Productions.F
+                ExpressionGrammar.Productions.S, ExpressionGrammar.Productions.E, ExpressionGrammar.Productions.T, ExpressionGrammar.Productions.F
             };
 
             var pros3 = new List<Production>

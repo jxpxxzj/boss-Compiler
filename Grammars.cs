@@ -45,7 +45,7 @@ namespace Compiler
             }
         }
     }
-    public static class LeftRecursiveTestGrammar
+    public static class ExpressionGrammar
     {
         public static class NonTerminals
         {
@@ -82,9 +82,11 @@ namespace Compiler
                 S.Add(NonTerminals.E);
 
                 E.Add(NonTerminals.E + "+" + NonTerminals.T)
+                    .Add(NonTerminals.E + "-" + NonTerminals.T)
                     .Add(NonTerminals.T);
 
                 T.Add(NonTerminals.T + "*" + NonTerminals.F)
+                    .Add(NonTerminals.T + "/" + NonTerminals.F)
                     .Add(NonTerminals.F);
 
                 F.Add("(" + NonTerminals.E + ")")
